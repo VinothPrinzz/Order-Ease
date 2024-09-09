@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "cappucino",
+        "price": 50,
+        "image": "cappucino.webp"
+    },
+    {
+        "id": 2,
+        "name": "cheese noodles",
+        "price": 65,
+        "image": "Cheese.jpeg"
+    },
+    {
+        "id": 3,
+        "name": "ice tea",
+        "price": 50,
+        "image": "icedtea.jpeg"
+    }
+    ,
+    {
+        "id": 4,
+        "name": "masala maggie",
+        "price": 55,
+        "image": "masala.jpeg"
+    },
+    {
+        "id": 5,
+        "name": "normal maggie",
+        "price": 50,
+        "image": "normal.jpeg"
+    },
+    {
+        "id": 6,
+        "name": "choco truffle",
+        "price": 60,
+        "image": "pastry.jpeg"
+    }
+]

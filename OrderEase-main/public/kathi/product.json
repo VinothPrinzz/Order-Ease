@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "veg burger",
+        "price": 60,
+        "image": "blog-1.jpg"
+    },
+    {
+        "id": 2,
+        "name": "cheese burger",
+        "price": 55,
+        "image": "blog-2.jpg"
+    },
+    {
+        "id": 3,
+        "name": "chicken biryani",
+        "price": 200,
+        "image": "blog-3.jpg"
+    }
+    ,
+    {
+        "id": 4,
+        "name": "chicken fried rice",
+        "price": 190,
+        "image": "blog-4.jpg"
+    },
+    {
+        "id": 5,
+        "name": "tandoori chicken",
+        "price": 220,
+        "image": "blog-5.jpg"
+    },
+    {
+        "id": 6,
+        "name": "chicken 65",
+        "price": 220,
+        "image": "blog-6.jpg"
+    }
+]

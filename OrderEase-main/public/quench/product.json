@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "veg Burger",
+        "price": 50,
+        "image": "blog-1.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Chicken Wrap",
+        "price": 75,
+        "image": "Chicken-Wrap.jpeg"
+    },
+    {
+        "id": 3,
+        "name": "Waffle",
+        "price": 100,
+        "image": "easy-waffle-recipe-1-16.jpg"
+    }
+    ,
+    {
+        "id": 4,
+        "name": "Milk shake",
+        "price": 80,
+        "image": "Freak_shake_Blog_image_1200x.jpg"
+    },
+    {
+        "id": 5,
+        "name": "peri peri with cheese",
+        "price": 65,
+        "image": "fries.cms.jpeg"
+    },
+    {
+        "id": 6,
+        "name": "mojito",
+        "price": 60,
+        "image": "mojito.jpeg"
+    }
+]

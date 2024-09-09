@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "chicken 65",
+        "price": 300,
+        "image": "65.jpg"
+    },
+    {
+        "id": 2,
+        "name": "chicken biryani",
+        "price": 340,
+        "image": "biryani.jpg"
+    },
+    {
+        "id": 3,
+        "name": "afgani momos",
+        "price": 180,
+        "image": "momos.webp"
+    }
+    ,
+    {
+        "id": 4,
+        "name": "naan",
+        "price": 10,
+        "image": "naan.webp"
+    },
+    {
+        "id": 5,
+        "name": "chicken rara masala",
+        "price": 220,
+        "image": "rara.webp"
+    },
+    {
+        "id": 6,
+        "name": "chicken strips",
+        "price": 240,
+        "image": "strips.jpg"
+    }
+]

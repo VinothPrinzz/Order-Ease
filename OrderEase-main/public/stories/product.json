@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "idli",
+        "price": 50,
+        "image": "idli.webp"
+    },
+    {
+        "id": 2,
+        "name": "masala dosa",
+        "price": 120,
+        "image": "masala_dosa.jpeg"
+    },
+    {
+        "id": 3,
+        "name": "plain dosa",
+        "price": 100,
+        "image": "plain_dosa.jpeg"
+    }
+    ,
+    {
+        "id": 4,
+        "name": "Rava dosa",
+        "price": 160,
+        "image": "rava_dosa.jpeg"
+    },
+    {
+        "id": 5,
+        "name": "uthapam",
+        "price": 150,
+        "image": "uthapam.jpeg"
+    },
+    {
+        "id": 6,
+        "name": "vada.jpeg",
+        "price": 60,
+        "image": "vada.jpeg"
+    }
+]
