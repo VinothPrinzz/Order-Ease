@@ -1,5 +1,8 @@
-# Order-Ease
+# Order-Ease 
 Order-Ease is a web-based food ordering platform designed to streamline campus dining experiences. This platform allows students and staff to browse menus, place orders, and easily manage their dining experiences. Built using a combination of EJS (Embedded JavaScript), JavaScript, CSS, and MongoDB, Order-Ease simplifies food ordering in an intuitive and user-friendly way.
+
+## URL
+https://bennettfoods-2.onrender.com/
 
 ## 🍔 About Order-Ease
 Order-Ease is designed to enhance the food ordering process, especially for campus dining:
