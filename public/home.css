@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --text-color: #333;
+    --background-color: #f7f7f7;
+    --card-background: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    
+    /* Shop-specific colors */
+    --kathi-color: #ffa500;
+    --maggie-color: #ff4500;
+    --southern-color: #4b0082;
+    --quench-color: #00ced1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full viewport height */
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--background-color);
+    background-image: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C92AC" fill-opacity="0.05" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E');
+
+}
+
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    transition: color 0.3s ease;
+    font-size: 1.1rem;
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+main {
+    flex: 1; /* Allow main to grow and push footer down */
+    padding-top: 80px; /* Space for fixed header */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px 40px;
+}
+
+.shop-hero {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 1rem;
+    margin-bottom: 3rem;
+}
+
+.shop-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.shop-hero p {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.menu h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+}
+
+.food-card {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px var(--shadow-color);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.food-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.food-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.food-card:hover img {
+    transform: scale(1.05);
+}
+
+.food-info {
+    padding: 1.5rem;
+}
+
+.food-info h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.food-info p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.price-quantity {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+}
+
+.quantity-btn:hover {
+    opacity: 0.9;
+}
+
+.quantity {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 0; /* Ensure footer is not pushed down by margin */
+}
+
+footer {
+    position: relative; /* Standard positioning */
+}
+
+/* Shop-specific styles */
+.kathi-hero { 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/kathi-banner.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.maggie-hero { 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/maggie-hotspot-banner.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.southern-hero { 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/southern-stories-banner.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.quench-hero { 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/quench-banner.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.kathi-card h3, .kathi-card .quantity-btn { color: var(--kathi-color); }
+.maggie-card h3, .maggie-card .quantity-btn { color: var(--maggie-color); }
+.southern-card h3, .southern-card .quantity-btn { color: var(--southern-color); }
+.quench-card h3, .quench-card .quantity-btn { color: var(--quench-color); }
+
+.kathi-card .quantity-btn { background-color: var(--kathi-color); }
+.maggie-card .quantity-btn { background-color: var(--maggie-color); }
+.southern-card .quantity-btn { background-color: var(--southern-color); }
+.quench-card .quantity-btn { background-color: var(--quench-color); }
+
+@media (max-width: 768px) {
+    .shop-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .shop-hero p {
+        font-size: 1.2rem;
+    }
+
+    .food-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}

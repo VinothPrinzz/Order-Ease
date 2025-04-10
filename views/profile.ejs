@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo"><a href="/home" style="text-decoration: none; color: #ff6b6b">BENNETT FOODS</a></div>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <h1 style="text-align: center; margin-bottom: 1rem;">Order History</h1>
+            <% const shops = ['kathi', 'southern', 'quench', 'hotspot']; %>
+            <% shops.forEach(shop => { %>
+                <section class="shop-orders">
+                    <h2><%= shop.charAt(0).toUpperCase() + shop.slice(1) %> Ordered Items</h2>
+                    <% if (orderedItems[shop].length > 0) { %>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Order Date</th>
+                                        <th>Completion Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% orderedItems[shop].forEach(item => { %>
+                                        <tr>
+                                            <td><%= item.itemName %></td>
+                                            <td><%= item.quantity %></td>
+                                            <td><%= item.price %></td>
+                                            <td><%= item.createdAt.toLocaleString() %></td>
+                                            <td><%= item.completedAt ? item.completedAt.toLocaleString() : 'N/A' %></td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } else { %>
+                        <p class="no-orders">No orders from this shop yet.</p>
+                    <% } %>
+                </section>
+            <% }); %>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Bennett Foods. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

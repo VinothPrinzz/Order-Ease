@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Southern Cart - Bennett Foods</title>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/cart.css">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/home" style="text-decoration: none;"><div class="logo">Bennett Foods</div></a>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/southern">Back to Southern</a></li>
+                <li><a href="/profile">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main data-shop-name="southern">
+        <section class="cart-container">
+            <h1>Southern Cart</h1>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+            <button id="checkout-btn" class="btn">Proceed to Checkout</button>
+            <button id="add-to-order-btn" class="btn">Add to Order</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bennett Foods. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const shopName = 'southern';
+            let cart = [];
+            let totalAmount = 0;
+
+            async function fetchCart() {
+                try {
+                    const response = await fetch('/api/get-cart');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch cart');
+                    }
+                    const data = await response.json();
+                    cart = data.cart.southernCartItems;
+                    updateCartDisplay();
+                } catch (error) {
+                    console.error('Error fetching cart:', error);
+                }
+            }
+
+            function updateCartDisplay() {
+                const cartItemsElement = document.getElementById('cart-items');
+                const cartTotalElement = document.getElementById('cart-total');
+                let cartHTML = '';
+                totalAmount = 0;
+
+                cart.forEach(item => {
+                    cartHTML += `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.itemName}" class="cart-item-image">
+                            <div class="cart-item-details">
+                                <h3>${item.itemName}</h3>
+                                <p>Price: $${item.price.toFixed(2)}</p>
+                                <div class="quantity-control">
+                                    <button class="quantity-btn minus" data-id="${item.itemId}">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="quantity">${item.quantity}</span>
+                                    <button class="quantity-btn plus" data-id="${item.itemId}">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="remove-btn" data-id="${item.itemId}">Remove</button>
+                        </div>
+                    `;
+                    totalAmount += item.price * item.quantity;
+                });
+
+                cartItemsElement.innerHTML = cartHTML;
+                cartTotalElement.innerHTML = `<h2>Total: $${totalAmount.toFixed(2)}</h2>`;
+
+                addEventListeners();
+            }
+
+            function addEventListeners() {
+                document.querySelectorAll('.quantity-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const itemId = this.dataset.id;
+                        const change = this.classList.contains('plus') ? 1 : -1;
+                        updateCartItem(itemId, change);
+                    });
+                });
+
+                document.querySelectorAll('.remove-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const itemId = this.dataset.id;
+                        removeCartItem(itemId);
+                    });
+                });
+
+                document.getElementById('add-to-order-btn').addEventListener('click', createOrder);
+                document.getElementById('checkout-btn').addEventListener('click', initiatePayment);
+            }
+
+            async function updateCartItem(itemId, change) {
+                const item = cart.find(item => item.itemId === itemId);
+                if (item) {
+                    item.quantity += change;
+                    if (item.quantity <= 0) {
+                        await removeCartItem(itemId);
+                    } else {
+                        await updateServerCart(item);
+                    }
+                }
+            }
+
+            async function removeCartItem(itemId) {
+                try {
+                    const response = await fetch('/api/update-cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            shopName: shopName,
+                            itemId: itemId,
+                            quantity: 0
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to remove item from cart on server');
+                    }
+
+                    await fetchCart();
+                } catch (error) {
+                    console.error('Error removing item from cart:', error);
+                    alert('Failed to remove item from cart. Please try again.');
+                }
+            }
+
+            async function updateServerCart(item) {
+                try {
+                    const response = await fetch('/api/update-cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            shopName: shopName,
+                            ...item
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to update cart on server');
+                    }
+
+                    await fetchCart();
+                } catch (error) {
+                    console.error('Error updating cart:', error);
+                    alert('Failed to update cart. Please try again.');
+                }
+            }
+
+            async function createOrder() {
+                if (cart.length === 0) {
+                    alert('Your cart is empty. Please add items before creating an order.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/${shopName}/create-order`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            items: cart.map(item => ({
+                                name: item.itemName,
+                                quantity: item.quantity,
+                                price: item.price
+                            })),
+                            totalPrice: totalAmount
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to create order');
+                    }
+
+                    const result = await response.json();
+                    alert('Order created successfully! Order ID: ' + result.orderId);
+                    
+                    // Clear the cart after successful order creation
+                    await fetch(`/api/${shopName}/clear-cart`, { method: 'POST' });
+                    cart = [];
+                    updateCartDisplay();
+
+                } catch (error) {
+                    console.error('Error creating order:', error);
+                    alert('Failed to create order. Please try again.');
+                }
+            }
+
+            function initiatePayment() {
+                if (totalAmount <= 0) {
+                    alert('Your cart is empty. Please add items before checking out.');
+                    return;
+                }
+
+                fetch('/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: totalAmount,
+                        name: 'Southern Order',
+                        description: 'Payment for Southern items'
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var options = {
+                        "key": data.key_id,
+                        "amount": data.amount,
+                        "currency": "INR",
+                        "name": "Bennett Foods",
+                        "description": data.description,
+                        "order_id": data.order_id,
+                        "handler": function (response){
+                            alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                            createOrder();
+                        },
+                        "prefill": {
+                            "name": data.name,
+                            "email": data.email,
+                            "contact": data.contact
+                        },
+                        "theme": {
+                            "color": "#3399cc"
+                        }
+                    };
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to initiate payment. Please try again.');
+                });
+            }
+
+            fetchCart();
+        });
+    </script>
+</body>
+</html>

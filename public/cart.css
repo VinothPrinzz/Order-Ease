@@ -1,0 +1,171 @@
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Changed to 100% for responsiveness */
+    max-width: 1000px; /* Added max-width for consistency */
+    margin: 2rem auto;
+    padding: 3rem;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.shop-cart {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    width: 100%; /* Make it responsive */
+    padding: 1rem; /* Added padding for the cart items */
+}
+
+.cart-items {
+    padding: 1rem; /* Ensure padding for the items */
+    width: 100%; /* Ensure full width to match container */
+}
+
+
+.cart-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem; /* Reduced for more spacing */
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.shop-name {
+    padding: 1rem; /* Adjusted padding */
+    font-size: 1.5rem;
+    margin: 0;
+    color: #ffffff;
+}
+
+
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem; /* Adjusted for more compact spacing */
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    width: 100%; /* Ensure full width */
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item:hover {
+    background-color: #f9f9f9;
+}
+
+.cart-item-image {
+    width: 80px; /* Reduced size */
+    height: 80px; /* Reduced size */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1rem; /* Reduced for more compact spacing */
+}
+
+.cart-item-details {
+    flex-grow: 1;
+    padding-right: 1rem; /* Added padding */
+}
+
+.cart-item-name {
+    font-size: 1.3rem; /* Increased from 1.2rem */
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem; /* Adjusted for spacing */
+}
+
+.cart-item-price {
+    font-size: 1.2rem; /* Increased from 1.1rem */
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem; /* Adjusted for spacing */
+}
+
+/* Adjusted button styles */
+.btn, .remove-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem; /* Reduced padding */
+    font-size: 1.2rem; /* Reduced font size */
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0.5rem; /* Added margin for spacing between buttons */
+}
+
+/* ... (remaining styles unchanged) ... */
+
+.shop-total {
+    background-color: #f9f9f9;
+    padding: 1rem; /* Adjusted for more compact spacing */
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.2rem; /* Increased from 1.1rem */
+}
+
+.cart-summary {
+    margin-top: 2rem; /* Reduced for more spacing */
+    text-align: right;
+    border-top: 2px solid var(--primary-color);
+    padding-top: 1rem; /* Adjusted for more compact spacing */
+}
+
+.cart-total {
+    font-size: 1.5rem; /* Reduced from 1.7rem */
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem; /* Adjusted for spacing */
+}
+
+.checkout-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem; /* Reduced padding */
+    font-size: 1.2rem; /* Reduced font size */
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* ... (remaining styles unchanged) ... */
+
+@media (max-width: 768px) {
+    .cart-container {
+        padding: 2rem; /* Adjusted for mobile */
+    }
+
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem; /* Adjusted for mobile */
+    }
+
+    .cart-item-image {
+        margin-right: 0;
+        margin-bottom: 1rem; /* Increased from 1rem */
+    }
+
+    .remove-item {
+        margin-top: 1.5rem; /* Increased from 1rem */
+        margin-left: 0;
+    }
+
+    .cart-summary {
+        text-align: center;
+    }
+}

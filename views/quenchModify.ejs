@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify <%= shopName %> Menu - Flavor Fiesta</title>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/<%= shop %>.css">
+    <link rel="stylesheet" href="/modify-menu.css">
+    <link rel="stylesheet" href="/shop.css">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <style>
+        .dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .dialog-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        dialog {
+            background-color: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%) scale(0.9);
+            margin: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        dialog[open] {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .dialog-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .dialog-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/home" style="text-decoration: none;"><div class="logo">Bennett Foods</div></a>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/quench-dashboard">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Modify <%= shopName %> Menu</h1>
+        
+        <section class="add-item">
+            <h2>Add New <%= shopName %> Item</h2>
+            <form action="/modify/<%= shop %>/add" method="POST">
+                <div class="form-group">
+                    <label for="name">Item Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image URL</label>
+                    <input type="url" id="image" name="image" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </form>
+        </section>
+
+        <section class="current-menu">
+            <h2>Current <%= shopName %> Menu Items</h2>
+            <div class="menu-grid">
+                <% food.forEach(item => { %>
+                    <div class="menu-item <%= shop %>-item" data-item-id="<%= item._id %>">
+                        <img src="<%= item.image.url %>" alt="<%= item.name %>">
+                        <h3><%= item.name %></h3>
+                        <p><%= item.description %></p>
+                        <p class="price">$<%= item.price.toFixed(2) %></p>
+                        
+                        <div class="item-actions">
+                            <button class="btn btn-primary" onclick="openEditDialog('<%= item._id %>')">Edit</button>
+                            <form action="/modify/<%= shop %>/delete/<%= item._id %>" method="POST">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+    </main>
+
+    <div class="dialog-overlay" id="dialogOverlay">
+        <dialog id="editDialog">
+            <div class="dialog-content">
+                <h2>Edit Item</h2>
+                <form id="editForm" method="POST">
+                    <div class="form-group">
+                        <label for="edit-name">Item Name</label>
+                        <input type="text" id="edit-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-description">Description</label>
+                        <textarea id="edit-description" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-image">Image URL</label>
+                        <input type="url" id="edit-image" name="image">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-price">Price</label>
+                        <input type="number" id="edit-price" name="price" step="0.01" min="0" required>
+                    </div>
+                    <div class="dialog-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditDialog()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Item</button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Flavor Fiesta. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const dialog = document.getElementById('editDialog');
+        const dialogOverlay = document.getElementById('dialogOverlay');
+        const editForm = document.getElementById('editForm');
+
+        function openEditDialog(itemId) {
+            const itemElement = document.querySelector(`.menu-item[data-item-id="${itemId}"]`);
+            if (itemElement) {
+                const name = itemElement.querySelector('h3').textContent;
+                const description = itemElement.querySelector('p:not(.price)').textContent;
+                const imageUrl = itemElement.querySelector('img').src;
+                const price = itemElement.querySelector('.price').textContent.replace('$', '');
+
+                document.getElementById('edit-name').value = name;
+                document.getElementById('edit-description').value = description;
+                document.getElementById('edit-image').value = imageUrl;
+                document.getElementById('edit-price').value = price;
+                editForm.action = `/modify/<%= shop %>/update/${itemId}`;
+                dialog.showModal();
+                dialogOverlay.classList.add('active');
+            }
+        }
+
+        function closeEditDialog() {
+            dialog.close();
+            dialogOverlay.classList.remove('active');
+        }
+
+        dialog.addEventListener('close', () => {
+            dialogOverlay.classList.remove('active');
+        });
+
+        dialogOverlay.addEventListener('click', (e) => {
+            if (e.target === dialogOverlay) {
+                closeEditDialog();
+            }
+        });
+    </script>
+</body>
+</html>

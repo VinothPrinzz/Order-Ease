@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= shop.charAt(0).toUpperCase() + shop.slice(1) %> Dashboard - Flavor Fiesta</title>
+    <link rel="stylesheet" href="/style.css">
+    
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="/home" class="logo">Bennett Foods</a>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/admin-logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <h1><%= shop.charAt(0).toUpperCase() + shop.slice(1) %> Dashboard</h1>
+
+            <section>
+                <h2>Active Orders</h2>
+                <div id="activeOrders">
+                    <% activeOrders.forEach(order => { %>
+                        <div class="order">
+                            <p><strong>Order ID:</strong> <%= order.orderId %></p>
+                            <p><strong>Username:</strong> <%= order.username %></p>
+                            <p><strong>Ordered Items:</strong></p>
+                            <ul>
+                                <% for(item of order.items){ %>
+                                    <li><%= item.name %> - Quantity: <%= item.quantity %>, Price: <%= item.price %></li>
+                                <% } %>
+                            </ul>
+                            <p><strong>Total Price:</strong> <%= order.totalPrice %></p>
+                            <div class="order-actions">
+                                <button class="btn ready-btn" data-order-id="<%= order.orderId %>">Mark as Ready</button>
+                                <button class="btn verify-btn" data-order-id="<%= order.orderId %>">Verify Customer</button>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </section>
+
+            <section>
+                <h2>Completed Orders</h2>
+                <div id="completedOrders">
+                    <% completedOrders.forEach(order => { %>
+                        <div class="order">
+                            <p><strong>Order ID:</strong> <%= order.orderId %></p>
+                            <p><strong>Username:</strong> <%= order.username %></p>
+                            <p><strong>Ordered Items:</strong></p>
+                            <ul>
+                                <% for(item of order.items){ %>
+                                    <li><%= item.name %> - Quantity: <%= item.quantity %>, Price: <%= item.price %></li>
+                                <% } %>
+                            </ul>
+                            <p><strong>Total Price:</strong> <%= order.totalPrice %></p>
+                            <p><strong>Completed At:</strong> <%= new Date(order.completedAt).toLocaleString() %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Bennett Foods. All rights reserved.</p>
+        </footer>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const readyButtons = document.querySelectorAll('.ready-btn');
+            const verifyButtons = document.querySelectorAll('.verify-btn');
+
+            readyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.dataset.orderId;
+                    fetch(`/<%= shop %>-dashboard/order-ready/${orderId}`, { method: 'POST' })
+                        .then(response => response.text())
+                        .then(result => {
+                            alert(result);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to mark order as ready');
+                        });
+                });
+            });
+
+            verifyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.dataset.orderId;
+                    fetch(`/<%= shop %>-dashboard/generate-otp/${orderId}`, { method: 'POST' })
+                        .then(response => response.text())
+                        .then(result => {
+                            alert('OTP sent to customer');
+                            const otp = prompt('Enter the OTP provided by the customer:');
+                            if (otp) {
+                                return fetch(`/<%= shop %>-dashboard/verify-otp/${orderId}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ otp }),
+                                });
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(result => {
+                            alert(result);
+                            if (result === 'OTP verified successfully. Order marked as completed.') {
+                                location.reload(); // Refresh the page to update order status
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to verify customer');
+                        });
+                });
+            });
+        });
+
+        function verifyOTP(orderId) {
+            const otp = document.getElementById(`otp-${orderId}`).value;
+            fetch(`/<%= shop %>-dashboard/verify-otp/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ otp }),
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                if (result === 'OTP verified successfully. Order marked as completed.') {
+                    location.reload(); // Refresh the page to update order status
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to verify OTP');
+            });
+        }
+    </script>
+</body>
+</html>

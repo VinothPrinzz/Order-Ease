@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email</title>
+    <link rel="stylesheet" href="/login-signup.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Verify Your Email</h1>
+        <% if (typeof error !== 'undefined') { %>
+            <div class="error">
+                <p><%= error %></p>
+            </div>
+        <% } %>
+        <form action="/verify" method="POST">
+            <input type="hidden" name="email" value="<%= email %>">
+            <input type="text" name="otp" placeholder="Enter OTP" required>
+            <input type="submit" value="Verify">
+        </form>
+        <p>Didn't receive the OTP? <a href="/resend-otp">Resend OTP</a></p>
+    </div>
+</body>
+</html>

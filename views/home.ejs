@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavor Fiesta - Home</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/cards.css">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/home" style="text-decoration: none;">
+                <div class="logo">Bennett Foods</div>
+            </a>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/about">About</a></li>
+                <% if (isLoggedIn) { %>
+                    <li><a href="/profile"> Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/signup">Signup</a></li>
+                <% } %>
+                <li><a href="/admin-login">Admin Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero" style="text-align: center;">
+            <% if (isLoggedIn) { %>
+                <h1>Hello, <%= username %>!</h1>
+                <p>Welcome back to Bennett Foods</p>
+            <% } else { %>
+                <h1>Welcome to Bennett Foods</h1>
+                <p>Embark on a culinary journey with our diverse food selection</p>
+            <% } %>
+        </section>
+
+        <section id="shops" class="shop-container">
+            <h2>Our Delightful Shops</h2>
+            <div class="maggie-card shop-grid">
+                <div class="maggie-card shop-card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRRvr3CxZoSqeYdlBwRRlAc9OYL-xK3xGm8w&s" alt="Delicious Kathi Rolls">
+                    <div class="card-content">
+                        <h3>Kathi</h3>
+                        <p>Savor the flavors of our mouthwatering Kathi rolls</p>
+                        <a href="/home/kathi" class="btn">Order Now</a>
+                    </div>
+                </div>
+                
+                <div class="shop-card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjoDS7Ow3SoQ4OOXl5lASvvsyXC8wTpjCX7Q&s" alt="Maggie Hotspot Delights">
+                    <div class="card-content">
+                        <h3>Maggie Hotspot</h3>
+                        <p>Indulge in comforting Maggie dishes with a twist</p>
+                        <a href="/home/hotspot" class="btn">Order Now</a>
+                    </div>
+                </div>
+                
+                <div class="shop-card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmwnZ1c_9e8iWdIccqRcQXvGHCd8StxUJD5g&s" alt="Southern Cuisine Dishes">
+                    <div class="card-content">
+                        <h3>Southern Stories</h3>
+                        <p>Experience the rich flavors of Southern cuisine</p>
+                        <a href="/home/southern" class="btn">Order Now</a>
+                    </div>
+                </div>
+                
+                <div class="shop-card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNNVgnPzkGWOSeWrcY1O-_vSTz7_iuFvjDMQ&s" alt="Refreshing Beverages">
+                    <div class="card-content">
+                        <h3>Quench</h3>
+                        <p>Refresh yourself with our delightful drink selection</p>
+                        <a href="/home/quench" class="btn">Order Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Flavor Fiesta. All rights reserved.</p>
+    </footer>
+</body>
+</html>
